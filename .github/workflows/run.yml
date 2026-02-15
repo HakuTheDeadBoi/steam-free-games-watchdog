@@ -3,7 +3,7 @@ name: Steam free games Watchdog
 on:
   schedule:
     - cron: '0 5 * * *'
-  workdflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   send_report:
