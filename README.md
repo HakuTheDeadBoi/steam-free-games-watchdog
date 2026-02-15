@@ -38,7 +38,7 @@ Set the following environment variables for SMTP:
 | Variable     | Description |
 |-------------|-------------|
 | `RECIPIENTS` | Comma-separated list of email addresses |
-| `SERVER`     | SMTP server |
+| `HOST`     | SMTP server |
 | `PORT`       | SMTP port (e.g., 465) |
 | `EMAIL`      | Sender's email address |
 | `PASSWORD`   | Password or app-specific password |
@@ -47,7 +47,7 @@ Example:
 
 ```bash
 export RECIPIENTS="me@example.com,you@example.com"
-export SERVER="smtp.example.com"
+export HOST="smtp.example.com"
 export PORT="465"
 export EMAIL="me@example.com"
 export PASSWORD="secret"
