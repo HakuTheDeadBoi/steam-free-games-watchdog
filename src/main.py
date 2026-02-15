@@ -1,4 +1,5 @@
 from datetime import date
+from email.message import EmailMessage
 from html.parser import HTMLParser
 import os
 import re
@@ -61,13 +62,12 @@ class SteamFreeGamesFinder(HTMLParser):
             self.items_list_start_found = True
 
 def main() -> None:
-    recipients = os.environ.get('RECIPIENTS')
     smtp_config = {
         'host': os.environ.get('HOST'),
         'port': os.environ.get('PORT'),
         'email': os.environ.get('EMAIL'),
         'password': os.environ.get('PASSWORD'),
-        'recipients': recipients.split(',') if recipients else '',
+        'recipients': os.environ.get('RECIPIENTS'),
     }
 
     if not all(smtp_config.values()):
@@ -107,13 +107,16 @@ def render_response(data: list[GameDict]) -> str:
     return f'{header}{message}'
 
 def send_mail(msg: str, config: SMTPConfigDict) -> dict[str, tuple[int, str]]:
+    email_msg = EmailMessage()
+    email_msg.set_content = msg
+    email_msg['Subject'] = 'Denní report ze Steamu!'
+    email_msg['From'] = config['email']
+    email_msg['To'] = config['recipients']
+    
     with SMTP_SSL(config['host'], config['port']) as server:
         server.login(
             user = config['email'],
             password = config['password'],
         )
-        return server.send_message(
-            msg = msg,
-            from_addr = config['email'],
-            to_addrs=config['recipients'],
-        )
+
+        return server.send_message(email_msg)
