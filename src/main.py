@@ -71,7 +71,7 @@ def main() -> None:
     }
 
     if not all(smtp_config.values()):
-        raise Exception('SMTP connection can\'t be established since configuration is incomplete!')
+        raise Exception(f'SMTP connection can\'t be established since configuration is incomplete! {list(smtp_config.values())}')
 
     URL = 'https://store.steampowered.com/search?maxprice=free&supportedlang=english&specials=1&hidef2p=1'
     html = get_html(URL)
