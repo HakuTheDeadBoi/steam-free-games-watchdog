@@ -20,10 +20,10 @@ jobs:
     
     - name: Run
       env:
-        EMAIL: ${{ secrets.email }}
-        PASSWORD: ${{ secrets.password }}
-        PORT: ${{ secrets.port }}
-        HOST: ${{ secrets.host }}
-        RECIPIENTS: ${{ secrets.recipients }}
+        EMAIL: ${{ secrets.EMAIL }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        PORT: ${{ secrets.PORT }}
+        HOST: ${{ secrets.HOST }}
+        RECIPIENTS: ${{ secrets.RECIPIENTS }}
       run: |
         python -m run
