@@ -107,12 +107,14 @@ def render_response(data: list[GameDict]) -> str:
     return f'{header}{message}'
 
 def send_mail(msg: str, config: SMTPConfigDict) -> dict[str, tuple[int, str]]:
+    if not msg:
+        raise Exception('Message for mail is empty!')
     email_msg = EmailMessage()
     email_msg.set_content = msg
     email_msg['Subject'] = 'Denní report ze Steamu!'
     email_msg['From'] = config['email']
     email_msg['To'] = config['recipients']
-    
+
     with SMTP_SSL(config['host'], config['port']) as server:
         server.login(
             user = config['email'],
