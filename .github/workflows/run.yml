@@ -1,0 +1,6 @@
+env:
+  EMAIL: ${{ secrets.email }}
+  PASSWORD: ${{ secrets.password }}
+  PORT: ${{ secrets.port }}
+  HOST: ${{ secrets.host }}
+  RECIPIENTS: ${{ secrets.recipients }}
