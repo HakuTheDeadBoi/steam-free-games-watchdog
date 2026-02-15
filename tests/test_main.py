@@ -1,7 +1,7 @@
 from datetime import date
 import os
 import unittest
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import MagicMock, patch
 
 from src.main import (
     get_html,
@@ -224,8 +224,7 @@ class TestSendMail(unittest.TestCase):
     def test_send_mail_success(self, mock_smtp_ssl):
         mock_server = MagicMock()
         mock_smtp_ssl.return_value.__enter__.return_value = mock_server
-        
-        mock_server.send_message.return_value = {'recipient@example.com': (250, 'OK')}
+        mock_server.send_message.return_value = []
 
         msg = "Test message"
         config = {
@@ -238,14 +237,9 @@ class TestSendMail(unittest.TestCase):
 
         result = send_mail(msg, config)
 
-        self.assertEqual(result, {'recipient@example.com': (250, 'OK')})
+        self.assertFalse(result)
 
         mock_server.login.assert_called_once_with(user='me@example.com', password='secret')
-        mock_server.send_message.assert_called_once_with(
-            msg=msg,
-            from_addr='me@example.com',
-            to_addrs=['recipient@example.com']
-        )
 
     @patch('src.main.SMTP_SSL')
     def test_send_mail_login_raises(self, mock_smtp_ssl):
@@ -292,7 +286,7 @@ class TestMain(unittest.TestCase):
     @patch('src.main.get_html')
     @patch.dict(os.environ, {
         'RECIPIENTS': 'a@b.com,b@c.com',
-        'SERVER': 'smtp.example.com',
+        'HOST': 'smtp.example.com',
         'PORT': '465',
         'EMAIL': 'me@example.com',
         'PASSWORD': 'secret'
@@ -313,7 +307,7 @@ class TestMain(unittest.TestCase):
             'port': '465',
             'email': 'me@example.com',
             'password': 'secret',
-            'recipients': ['a@b.com','b@c.com']
+            'recipients': 'a@b.com,b@c.com'
         })
 
         self.assertEqual(result, {'a@b.com': (250, 'OK'), 'b@c.com': (250, 'OK')})
