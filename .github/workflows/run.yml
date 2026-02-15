@@ -1,6 +1,29 @@
-env:
-  EMAIL: ${{ secrets.email }}
-  PASSWORD: ${{ secrets.password }}
-  PORT: ${{ secrets.port }}
-  HOST: ${{ secrets.host }}
-  RECIPIENTS: ${{ secrets.recipients }}
+name: Steam free games Watchdog
+
+on:
+  schedule:
+    - cron: '0 5 * * *'
+  workdflow_dispatch:
+
+jobs:
+  send_report:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.14
+    
+    - name: Run
+      env:
+        EMAIL: ${{ secrets.email }}
+        PASSWORD: ${{ secrets.password }}
+        PORT: ${{ secrets.port }}
+        HOST: ${{ secrets.host }}
+        RECIPIENTS: ${{ secrets.recipients }}
+      run: |
+        python -m run
