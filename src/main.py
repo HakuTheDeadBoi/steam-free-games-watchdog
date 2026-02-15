@@ -63,7 +63,7 @@ class SteamFreeGamesFinder(HTMLParser):
 def main() -> None:
     recipients = os.environ.get('RECIPIENTS')
     smtp_config = {
-        'host': os.environ.get('SERVER'),
+        'host': os.environ.get('HOST'),
         'port': os.environ.get('PORT'),
         'email': os.environ.get('EMAIL'),
         'password': os.environ.get('PASSWORD'),
@@ -71,7 +71,7 @@ def main() -> None:
     }
 
     if not all(smtp_config.values()):
-        raise Exception(f'SMTP connection can\'t be established since configuration is incomplete! {list(smtp_config.values())}')
+        raise Exception(f'SMTP connection can\'t be established since configuration is incomplete! {list(smtp_config.items())}')
 
     URL = 'https://store.steampowered.com/search?maxprice=free&supportedlang=english&specials=1&hidef2p=1'
     html = get_html(URL)
