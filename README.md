@@ -1,9 +1,10 @@
 # Steam Free Games Watchdog
 
-![Python](https://img.shields.io/badge/python-3.11-blue)
+![Python](https://img.shields.io/badge/python-3.14-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 A small Python script that monitors Steam and sends an email report of games with 100% discount.
+Project built with emphasize on zero depencency, using only Python standard library.
 
 ---
 
